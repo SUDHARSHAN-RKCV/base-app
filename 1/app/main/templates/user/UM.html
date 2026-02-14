@@ -1,0 +1,397 @@
+{% extends "base.html" %} {% block content %}
+<body data-role="{{ current_user.role }}">
+  <div class="container mt-5">
+    <h2 class="mb-4">User Management</h2>
+
+    <!-- Create User Button (Admin Only) -->
+    <div class="mb-3 text-end admin-only">
+      <button
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#createUserModal"
+      >
+        Add User
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input
+          type="text"
+          id="filterInput"
+          class="form-control"
+          placeholder="Search by email, or role"
+        />
+      </div>
+      <div class="col-md-6">
+        <select id="roleFilter" class="form-select">
+          <option value="">Filter by Role</option>
+          <option value="SRE">SRE</option>
+          <option value="Manager">Manager</option>
+          <option value="ADMIN">ADMIN</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- User Table -->
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created At</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userBody">
+        {% for user in users %}
+        <tr
+          data-id="{{ user.user_id }}"
+          data-email="{{ user.email }}"
+          data-role="{{ user.role }}"
+          data-active="{{ 'true' if user.is_active else 'false' }}"
+          data-permission="{{ user.file_permission or 'none' }}"
+        >
+          <td>{{ user.email }}</td>
+          <td>{{ user.role|upper }}</td>
+          <td>{{ user.user_created_on }}</td>
+          <td class="text-{{ 'success' if user.is_active else 'danger' }}">
+            {{ 'Active' if user.is_active else 'Disabled' }}
+          </td>
+          <td>
+            <div class="admin-only d-flex flex-wrap gap-1">
+              <button
+                class="btn btn-sm btn-warning"
+                onclick="openEditModal(this)"
+              >
+                Edit
+              </button>
+              <form
+                method="POST"
+                action="{{ url_for('main.delete_user', user_id=user.user_id) }}"
+                onsubmit="return confirm('Are you sure?')"
+              >
+                <button class="btn btn-sm btn-danger" type="submit">
+                  Delete
+                </button>
+              </form>
+              <button
+                class="btn btn-sm btn-info"
+                onclick="openResetModal(this)"
+              >
+                Reset Password
+              </button>
+              <form
+                method="POST"
+                action="{{ url_for('main.toggle_user_status', user_id=user.user_id) }}"
+              >
+                <button class="btn btn-sm btn-secondary" type="submit">
+                  {{ 'Disable' if user.is_active else 'Enable' }}
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Create User Modal -->
+  <div
+    class="modal fade admin-only"
+    id="createUserModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <form
+        id="createUserForm"
+        method="POST"
+        action="{{ url_for('main.create_user_post') }}"
+      >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create New User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="createEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="createEmail"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="createPassword" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="createPassword"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="createRole" class="form-label">Role</label>
+              <select class="form-select" name="role" id="createRole" required>
+                <option value="SRE">SRE</option>
+                <option value="Manager">Manager</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">File Access Level</label><br />
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="basic"
+                  id="permBasic"
+                />
+                <label class="form-check-label" for="permBasic">Basic</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="view"
+                  id="permView"
+                />
+                <label class="form-check-label" for="permView">View</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="write"
+                  id="permWrite"
+                />
+                <label class="form-check-label" for="permWrite">Write</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="none"
+                  id="permNone"
+                  checked
+                />
+                <label class="form-check-label" for="permNone">No Access</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="editUserForm" method="POST">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit User</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editRole" class="form-label">Role</label>
+              <select name="role" id="editRole" class="form-select" required>
+                <option value="SRE">SRE</option>
+                <option value="Manager">Manager</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="is_active"
+                id="editIsActive"
+              />
+              <label class="form-check-label" for="editIsActive">Active</label>
+            </div>
+            <div class="mb-3 mt-3">
+              <label class="form-label">File Access Level</label><br />
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="basic"
+                  id="editPermBasic"
+                />
+                <label class="form-check-label" for="editPermBasic"
+                  >Basic</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="view"
+                  id="editPermView"
+                />
+                <label class="form-check-label" for="editPermView">View</label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="write"
+                  id="editPermWrite"
+                />
+                <label class="form-check-label" for="editPermWrite"
+                  >Write</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="file_permission"
+                  value="none"
+                  id="editPermNone"
+                />
+                <label class="form-check-label" for="editPermNone"
+                  >No Access</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset Password Modal -->
+  <div
+    class="modal fade"
+    id="resetPasswordModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <form id="resetPasswordForm" method="POST">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Reset Password</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input
+                type="password"
+                name="new_password"
+                id="newPassword"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-info" type="submit">Reset Password</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS Filters and Role Visibility -->
+  <script>
+    const filterInput = document.getElementById("filterInput");
+    const roleFilter = document.getElementById("roleFilter");
+
+    function applyFilters() {
+      const search = filterInput.value.trim().toLowerCase();
+      const selectedRole = roleFilter.value.trim().toLowerCase();
+
+      document.querySelectorAll("#userBody tr").forEach((row) => {
+        const email = row.dataset.email.toLowerCase();
+        const role = row.dataset.role.toLowerCase();
+
+        const matchesSearch =
+          !search || email.includes(search) || role.includes(search);
+        const matchesRole = !selectedRole || role === selectedRole;
+
+        row.style.display = matchesSearch && matchesRole ? "" : "none";
+      });
+    }
+
+    filterInput.addEventListener("input", applyFilters);
+    roleFilter.addEventListener("change", applyFilters);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const role = document.body.dataset.role || "";
+      if (role.toUpperCase() !== "ADMIN") {
+        document.querySelectorAll(".admin-only").forEach((el) => {
+          el.style.display = "none";
+        });
+      }
+    });
+
+    function openEditModal(btn) {
+      const row = btn.closest("tr");
+      const userId = row.dataset.id;
+      const role = row.dataset.role;
+      const isActive = row.dataset.active === "true";
+      const filePerm = row.dataset.permission || "none";
+
+      const form = document.getElementById("editUserForm");
+      form.action = `/${userId}/edit`;
+      document.getElementById("editRole").value = role;
+      document.getElementById("editIsActive").checked = isActive;
+
+      // Pre-check the correct file_permission radio
+      document
+        .querySelectorAll('input[name="file_permission"]')
+        .forEach((radio) => {
+          radio.checked = radio.value === filePerm;
+        });
+
+      new bootstrap.Modal(document.getElementById("editUserModal")).show();
+    }
+
+    function openResetModal(btn) {
+      const row = btn.closest("tr");
+      const userId = row.dataset.id;
+      const form = document.getElementById("resetPasswordForm");
+      form.action = `/${userId}/reset_password`;
+      new bootstrap.Modal(document.getElementById("resetPasswordModal")).show();
+    }
+  </script>
+</body>
+{% endblock %} flashed

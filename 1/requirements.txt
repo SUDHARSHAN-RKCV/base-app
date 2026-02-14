@@ -1,0 +1,50 @@
+# Core Flask
+Flask
+Werkzeug
+Jinja2
+itsdangerous
+click
+numpy
+pandas
+blinker
+
+# Production WSGI Server
+gunicorn
+
+# Database / ORM
+SQLAlchemy
+Flask-SQLAlchemy
+Flask-Migrate
+alembic
+psycopg2
+
+# Authentication / Forms
+Flask-Login
+Flask-WTF
+WTForms
+
+# Security
+bcrypt
+passlib
+cryptography
+Flask-Talisman
+
+# Session Management
+Flask-Session
+redis
+
+# Rate Limiting
+Flask-Limiter
+
+# Caching
+Flask-Caching
+cachelib
+
+# Environment Configuration
+python-dotenv
+
+# Timezone Support
+tzdata
+
+# Logging
+loguru

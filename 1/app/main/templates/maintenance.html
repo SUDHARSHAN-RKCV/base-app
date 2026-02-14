@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Under Maintenance</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        overflow: hidden;
+      }
+
+      .card {
+        backdrop-filter: blur(18px);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 50px;
+        border-radius: 20px;
+        text-align: center;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 16px;
+        opacity: 0.85;
+        margin-bottom: 30px;
+      }
+
+      /* Wind Turbine SVG */
+      .turbine {
+        width: 120px;
+        margin: 0 auto 30px;
+      }
+
+      .blade {
+        transform-origin: 50% 50%;
+        animation: spin 4s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 20px;
+        font-size: 13px;
+        opacity: 0.6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <svg class="turbine" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="6" fill="white" />
+        <g class="blade">
+          <polygon points="100,10 115,90 85,90" fill="white" />
+          <polygon points="190,100 110,115 110,85" fill="white" />
+          <polygon points="100,190 85,110 115,110" fill="white" />
+        </g>
+        <rect x="95" y="100" width="10" height="80" fill="white" />
+      </svg>
+
+      <h1>Scheduled Maintenance</h1>
+      <p>
+        We are currently upgrading our systems to serve you better. Please check
+        back shortly.
+      </p>
+      {% if start and end %}
+      <p>
+        Maintenance window: {{ start.astimezone().strftime("%d %b %Y %I:%M %p")
+        }} IST – {{ end.astimezone().strftime("%d %b %Y %I:%M %p") }} IST
+      </p>
+      {% endif %}
+    </div>
+
+    <div class="footer">© 2026 Your Company</div>
+  </body>
+</html>

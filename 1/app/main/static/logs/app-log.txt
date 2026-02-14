@@ -1,0 +1,301 @@
+2026-02-14 21:44:33,527 | ERROR | Exception on /_test_401 [GET] | C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py:838
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\__init__.py", line 73, in test_401
+    raise Exception("unauthorised access attempt detected")
+Exception: unauthorised access attempt detected
+2026-02-14 22:04:40,935 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:06:07,132 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:06:08,080 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:06:09,456 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:18:34,487 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:18:35,215 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:18:41,126 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:21:46,228 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:21:46,281 | ERROR | Unhandled Exception - GET /changelog - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 45, in changelog
+    return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\changelog.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block title %}Changelog{% endblock %} {% block
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main/static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main/static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 22:22:49,381 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:22:49,431 | ERROR | Unhandled Exception - GET /changelog - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 45, in changelog
+    return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\changelog.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block title %}Changelog{% endblock %} {% block
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main.static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 22:23:11,925 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:24:32,313 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:24:38,643 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:25:09,568 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:25:40,135 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 22:51:48,307 | ERROR | Failed to load changelog: 'function' object has no attribute 'markdown' | e:\base-app\1\app\main\routes.py:43
+2026-02-14 23:08:39,423 | ERROR | Unhandled Exception - GET /changelog - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 45, in changelog
+    return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\changelog.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block title %}Changelog{% endblock %} {% block
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main.static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 23:09:21,157 | ERROR | Unhandled Exception - GET /changelog - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 45, in changelog
+    return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\changelog.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block title %}Changelog{% endblock %} {% block
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main.static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 23:09:27,758 | ERROR | Unhandled Exception - GET /changelog - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 45, in changelog
+    return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\changelog.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block title %}Changelog{% endblock %} {% block
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main.static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 23:26:23,868 | ERROR | Unhandled Exception - GET / - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 32, in home
+    return render_template('home.html')
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\home.html", line 2, in top-level template code
+    {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('main.static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-14 23:26:42,875 | ERROR | Unhandled Exception - GET / - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:83
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\routes.py", line 32, in home
+    return render_template('home.html')
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\1\app\main\templates\home.html", line 2, in top-level template code
+    {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\1\app\main\templates\base.html", line 40, in top-level template code
+    href="{{ url_for('static', filename='css/style.css') }}"
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.static' with values ['filename']. Did you mean 'static' instead?
+2026-02-15 00:21:12,382 | ERROR | Unhandled Exception - GET / - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:126
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 878, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1253, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "e:\base-app\1\app\__init__.py", line 78, in check_for_maintenance
+    start = datetime.fromisoformat(start_str).replace(tzinfo=IST)
+            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+TypeError: fromisoformat: argument must be str
+2026-02-15 00:22:23,518 | ERROR | Unhandled Exception - GET / - IP: 127.0.0.1 | e:\base-app\1\app\__init__.py:126
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 878, in full_dispatch_request
+    rv = self.preprocess_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1253, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+  File "e:\base-app\1\app\__init__.py", line 78, in check_for_maintenance
+    end = app.config.get("MAINTENANCE_WINDOW_END")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: fromisoformat: argument must be str
