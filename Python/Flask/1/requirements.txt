@@ -4,7 +4,7 @@ Werkzeug==2.3.8
 Jinja2
 itsdangerous
 click
-numpy==1.21.3
+numpy==1.22.0
 pandas
 blinker
 
@@ -38,7 +38,7 @@ redis
 Flask-Limiter
 
 # Caching
-Flask-Caching
+Flask-Caching==2.3.1
 cachelib
 
 # Environment Configuration
