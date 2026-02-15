@@ -101,22 +101,5 @@
     </div>
 
     <div class="footer">© 2026 Your Company</div>
-    {% if end %}
-    <script>
-      const maintenanceEnd = new Date("{{ end.isoformat() }}").getTime();
-      const now = Date.now();
-
-      const timeRemaining = maintenanceEnd - now;
-
-      if (timeRemaining > 0) {
-        setTimeout(() => {
-          window.location.reload();
-        }, timeRemaining);
-      } else {
-        // If user loads page after window already ended
-        window.location.reload();
-      }
-    </script>
-    {% endif %}
   </body>
 </html>
