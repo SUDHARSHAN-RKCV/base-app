@@ -14,6 +14,7 @@ load_dotenv()
 
 login_manager = LoginManager()
 secret_key = os.getenv("session_secret_key")
+from .main import bell
 
 
 
@@ -21,6 +22,10 @@ secret_key = os.getenv("session_secret_key")
 def create_app():
     app = Flask(__name__, static_folder="main/static", template_folder="main/templates")
     app.config["APP_NAME"] = os.getenv("APP_NAME", "MyApp")
+    app.config["SUPPORT_EMAIL"] = os.getenv("SUPPORT_EMAIL","support@yourdomain.com")
+    from app.main.security import auth
+    app.register_blueprint(auth)
+
     limiter.init_app(app)
     # ---------------------------
     # Core Config
@@ -38,7 +43,8 @@ def create_app():
     @app.context_processor
     def inject_app_globals():
         return {
-            "app_name": app.config.get("APP_NAME")
+            "app_name": app.config.get("APP_NAME"),
+            "support_email": app.config.get("SUPPORT_EMAIL")
         }
 
     window = os.getenv("MAINTENANCE_WINDOW")
@@ -47,7 +53,7 @@ def create_app():
     app.config["MAINTENANCE_WINDOW_END"] = None
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'main.login'
+    login_manager.login_view = 'auth.login'
 
     # ---------------------------
     # Maintenance Interceptor

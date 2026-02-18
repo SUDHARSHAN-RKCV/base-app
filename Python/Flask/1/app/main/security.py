@@ -27,13 +27,13 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 from app import db
-from models import User
-from config import POSTGRES_URI
-from forms import CreateUserForm
+from app.models import User
+#from app.config import POSTGRES_URI
+from .forms import CreateUserForm
 
 load_dotenv()
 
-auth = Blueprint('auth', __name__, template_folder='templates')
+auth = Blueprint('auth', __name__, url_prefix="/auth")
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -51,7 +51,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password, password):
+        if user and user.is_active and check_password_hash(user.password, password):
             login_user(user)
             flash('Logged in successfully.', 'success')
             return redirect(url_for('main.home'))
@@ -99,12 +99,12 @@ def reset_password_form_handler():
 
     if not email:
         flash("Email is required.", "danger")
-        return redirect(url_for('main.reset_password_form'))
+        return redirect(url_for('auth.reset_password_form'))
 
     user = User.query.filter_by(email=email).first()
     if not user:
         flash("User does not exist.", "danger")
-        return redirect(url_for('main.reset_password_form'))
+        return redirect(url_for('auth.reset_password_form'))
 
     if not new_password or len(new_password) < 8:
         flash("Password must be at least 8 characters long.", "danger")
@@ -117,7 +117,7 @@ def reset_password_form_handler():
     user.password = generate_password_hash(new_password)
     db.session.commit()
     flash("Password has been reset successfully. Please log in.", "success")
-    return redirect(url_for('main.login'))
+    return redirect(url_for('auth.login'))
 
 
 # ------------------------
@@ -135,7 +135,7 @@ def user_management():
 
 @auth.route('/defadmin')
 def defadmin():
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/create', methods=['POST'])
@@ -152,7 +152,7 @@ def create_user_post():
     db.session.add(new_user)
     db.session.commit()
     flash("User created successfully", "success")
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/edit', methods=['POST'])
@@ -166,7 +166,7 @@ def edit_user(user_id: UUID):
     user.file_permission = request.form.get('file_permission', 'none')
     db.session.commit()
     flash('User updated successfully', 'success')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/delete', methods=['POST'])
@@ -178,7 +178,7 @@ def delete_user(user_id: UUID):
     db.session.delete(user)
     db.session.commit()
     flash('User deleted successfully', 'success')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/toggle', methods=['POST'])
@@ -190,7 +190,7 @@ def toggle_user_status(user_id: UUID):
     user.is_active = not user.is_active
     db.session.commit()
     flash('User status toggled', 'info')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/reset_password', methods=['POST'])
@@ -202,11 +202,11 @@ def admin_reset_password(user_id: UUID):
     new_password = request.form.get('new_password')
     if not new_password:
         flash("Password cannot be empty.", "danger")
-        return redirect(url_for('main.user_management'))
+        return redirect(url_for('auth.user_management'))
     user.password = generate_password_hash(new_password)
     db.session.commit()
     flash("Password has been reset successfully.", "warning")
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/create_user', methods=['GET', 'POST'])

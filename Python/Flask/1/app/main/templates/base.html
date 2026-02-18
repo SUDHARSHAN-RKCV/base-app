@@ -610,13 +610,12 @@
 
           <!-- Right Side -->
           <div class="footer-right">
-            <button
+            <a
               class="btn btn-sm btn-outline-light"
-              data-bs-toggle="modal"
-              data-bs-target="#supportModal"
+              href="mailto:{{ support_email }}?subject=%20Support%20Request for {{ app_name | urlencode }} - "
             >
               <i class="fas fa-life-ring me-1"></i> Contact Support
-            </button>
+            </a>
           </div>
         </div>
       </div>
