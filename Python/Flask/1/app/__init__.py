@@ -13,7 +13,7 @@ from .extentions import limiter
 load_dotenv()
 
 login_manager = LoginManager()
-secret_key = os.getenv("session_secret_key")
+secret_key = os.getenv("SECRET_KEY")
 from .main import bell
 
 
