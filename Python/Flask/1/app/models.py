@@ -33,7 +33,10 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return str(self.user_id)
-class SupportTicket(db.Model):
+
+class SupportTicket(db.Model): #table deprected ticketing via email
+    __tablename__ = "SupportTicket"
+    __table_args__ = {'schema': schema_name}
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(
         UUID(as_uuid=True),

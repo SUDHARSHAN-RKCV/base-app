@@ -305,3 +305,24 @@ Traceback (most recent call last):
     ...<3 lines>...
     )
 RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+2026-02-19 10:21:55,252 | ERROR | Unhandled Exception - GET /auth/logout - IP: 127.0.0.1 | c:\Users\sdnch\Documents\sdnch\scipher-ops\codes\base-app\Python\Flask\1\app\__init__.py:139
+Traceback (most recent call last):
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\login_manager.py", line 187, in unauthorized
+    flash(self.login_message, category=self.login_message_category)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\helpers.py", line 335, in flash
+    session["_flashes"] = flashes
+    ~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\sdnch\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\sessions.py", line 104, in _fail
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.

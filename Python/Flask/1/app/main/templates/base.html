@@ -531,7 +531,7 @@
           </div>
           {% endif %} {% if not current_user.is_authenticated %}
           <a
-            href="/login"
+            href="/auth/login"
             class="{% if active_page == 'login' %}active{% endif %}"
           >
             <i class="fas fa-user" title="Login"></i>
