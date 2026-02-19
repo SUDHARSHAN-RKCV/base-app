@@ -71,7 +71,6 @@
         background-color: var(--bg-color);
         color: var(--text-color);
         padding-bottom: 20px;
-        overflow: hidden;
       }
 
       /*UTILITIES */
@@ -88,11 +87,11 @@
       /*LAYOUT */
       .layout {
         display: flex;
-        height: 100vh;
+
         padding: 10px;
         box-sizing: border-box;
         gap: 10px;
-        overflow: hidden;
+        min-height: 100vh;
       }
 
       .page-container {
@@ -108,8 +107,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        overflow: hidden;
-        height: 100vh;
+        min-height: 0; /* allow children to shrink properly */
       }
 
       .main {
@@ -600,12 +598,12 @@
         <div class="footer-island position-relative">
           <!-- Center Block -->
           <div class="footer-center text-center mx-auto">
-            <a href="/changelog" class="footer-link fw-semibold d-block">
-              Version {{ app_version }}
-            </a>
             <small class="text-light opacity-75 d-block">
               Created and maintained by Your Team / Org Name
             </small>
+            <a href="/changelog" class="footer-link fw-semibold d-block">
+              Version {{ app_version }}
+            </a>
           </div>
 
           <!-- Right Side -->
@@ -621,7 +619,21 @@
       </div>
     </div>
 
-    <!-- Notification Panel (Offcanvas) -->
+    <!-- Notification Panel (Offcanvas) 
+     
+    <div class="footer-center text-center mx-auto">
+      <a href="/changelog" class="footer-link fw-semibold d-block">
+        Version {{ app_version }}
+      </a>
+      <small class="text-light opacity-75 d-block">
+        Created and maintained by Your Team / Org Name
+      </small>
+    </div>
+    
+    
+    
+    
+    -->
     <div
       class="offcanvas offcanvas-end glass-panel"
       tabindex="-1"
