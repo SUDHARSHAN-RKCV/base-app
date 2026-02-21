@@ -27,13 +27,13 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 from app import db
-from models import User
-from config import POSTGRES_URI
-from forms import CreateUserForm
+from app.models import User
+
+from .forms import CreateUserForm
 
 load_dotenv()
 
-auth = Blueprint('auth', __name__, template_folder='templates')
+auth = Blueprint('auth', __name__, url_prefix="/auth")
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -43,7 +43,7 @@ logger.setLevel(logging.INFO)
 # ------------------------
 # Auth Routes
 # ------------------------
-@auth.route('/login', methods=['GET', 'POST'])
+
 def login():
     if current_user.is_authenticated:
         return '', 204
@@ -51,7 +51,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
-        if user and check_password_hash(user.password, password):
+        if user and user.is_active and check_password_hash(user.password, password):
             login_user(user)
             flash('Logged in successfully.', 'success')
             return redirect(url_for('main.home'))
@@ -60,12 +60,12 @@ def login():
     return render_template('user/login.html')
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
     flash('You have been logged out.', 'info')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('main.home'))
 
 
 @auth.route('/settings', methods=['GET', 'POST'])
@@ -85,26 +85,33 @@ def user_settings():
 RESET_PASSWORD_FORM_TEMPLATE = 'user/reset_password_form.html'
 
 
+from .forms import CreateUserForm, CSRFOnlyForm
+
 @auth.route('/reset-password-form', methods=['GET', 'POST'])
 def reset_password_form():
-    return render_template(RESET_PASSWORD_FORM_TEMPLATE, email='')
+    form = CSRFOnlyForm()
+    return render_template(RESET_PASSWORD_FORM_TEMPLATE, email='', form=form)
 
 
 @auth.route('/reset-password', methods=['GET', 'POST'])
 @auth.route('/forgot-password', methods=['GET', 'POST'])
 def reset_password_form_handler():
+    form = CSRFOnlyForm()
+    if not form.validate_on_submit():
+        flash("Invalid form submission.", "danger")
+        return redirect(url_for('auth.reset_password_form'))
     email = request.form.get('email')
     new_password = request.form.get('new_password')
     confirm_password = request.form.get('confirm_password')
 
     if not email:
         flash("Email is required.", "danger")
-        return redirect(url_for('main.reset_password_form'))
+        return redirect(url_for('auth.reset_password_form'))
 
     user = User.query.filter_by(email=email).first()
     if not user:
         flash("User does not exist.", "danger")
-        return redirect(url_for('main.reset_password_form'))
+        return redirect(url_for('auth.reset_password_form'))
 
     if not new_password or len(new_password) < 8:
         flash("Password must be at least 8 characters long.", "danger")
@@ -117,14 +124,14 @@ def reset_password_form_handler():
     user.password = generate_password_hash(new_password)
     db.session.commit()
     flash("Password has been reset successfully. Please log in.", "success")
-    return redirect(url_for('main.login'))
+    return redirect(url_for('auth.login'))
 
 
 # ------------------------
 # Admin User Management
 # ------------------------
 
-@auth.route('/UM')
+@auth.route('/UM', methods=['GET'])
 @login_required
 def user_management():
     if current_user.role.lower() != 'admin':
@@ -133,9 +140,9 @@ def user_management():
     return render_template('user/UM.html', users=users, active_page='UM', current_user=current_user)
 
 
-@auth.route('/defadmin')
+@auth.route('/defadmin', methods=['GET'])
 def defadmin():
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/create', methods=['POST'])
@@ -152,7 +159,7 @@ def create_user_post():
     db.session.add(new_user)
     db.session.commit()
     flash("User created successfully", "success")
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/edit', methods=['POST'])
@@ -166,7 +173,7 @@ def edit_user(user_id: UUID):
     user.file_permission = request.form.get('file_permission', 'none')
     db.session.commit()
     flash('User updated successfully', 'success')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/delete', methods=['POST'])
@@ -178,7 +185,7 @@ def delete_user(user_id: UUID):
     db.session.delete(user)
     db.session.commit()
     flash('User deleted successfully', 'success')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/toggle', methods=['POST'])
@@ -190,7 +197,7 @@ def toggle_user_status(user_id: UUID):
     user.is_active = not user.is_active
     db.session.commit()
     flash('User status toggled', 'info')
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/reset_password', methods=['POST'])
@@ -202,11 +209,11 @@ def admin_reset_password(user_id: UUID):
     new_password = request.form.get('new_password')
     if not new_password:
         flash("Password cannot be empty.", "danger")
-        return redirect(url_for('main.user_management'))
+        return redirect(url_for('auth.user_management'))
     user.password = generate_password_hash(new_password)
     db.session.commit()
     flash("Password has been reset successfully.", "warning")
-    return redirect(url_for('main.user_management'))
+    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/create_user', methods=['GET', 'POST'])
