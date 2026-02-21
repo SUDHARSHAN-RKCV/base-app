@@ -529,7 +529,7 @@
           </div>
           {% endif %} {% if not current_user.is_authenticated %}
           <a
-            href="/auth/login"
+            href="/login"
             class="{% if active_page == 'login' %}active{% endif %}"
           >
             <i class="fas fa-user" title="Login"></i>
@@ -577,12 +577,12 @@
             >
               <i class="fas fa-bell ms-3"></i>
               <span class="visually-hidden">Open notifications</span>
-              {% if unread_count > 0 %}
+              {% if unread_count is defined and unread_count|default(0) > 0 %}
               <span
                 id="notif-badge"
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
               >
-                {{ unread_count }}
+                {{ unread_count|default(0) }}
               </span>
               {% else %}
               <span id="notif-badge" style="display: none"></span>
@@ -596,14 +596,19 @@
 
         <!-- Footer -->
         <div class="footer-island position-relative">
-          <!-- Center Block -->
           <div class="footer-center text-center mx-auto">
             <small class="text-light opacity-75 d-block">
               Created and maintained by Your Team / Org Name
             </small>
+            {% if current_user.is_authenticated %}
             <a href="/changelog" class="footer-link fw-semibold d-block">
               Version {{ app_version }}
             </a>
+            {% else %}
+            <span class="text-light opacity-75 d-block"
+              >Version {{ app_version }}</span
+            >
+            {% endif %}
           </div>
 
           <!-- Right Side -->
@@ -618,22 +623,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Notification Panel (Offcanvas) 
-     
-    <div class="footer-center text-center mx-auto">
-      <a href="/changelog" class="footer-link fw-semibold d-block">
-        Version {{ app_version }}
-      </a>
-      <small class="text-light opacity-75 d-block">
-        Created and maintained by Your Team / Org Name
-      </small>
-    </div>
-    
-    
-    
-    
-    -->
     <div
       class="offcanvas offcanvas-end glass-panel"
       tabindex="-1"
@@ -687,7 +676,7 @@
           <div class="modal-body">
             <form id="supportForm">
               <div class="mb-3">
-                <label class="form-label">Subject</label>
+                <label for="supportSubject" class="form-label">Subject</label>
                 <input
                   type="text"
                   class="form-control"
@@ -697,7 +686,7 @@
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Message</label>
+                <label for="supportMessage" class="form-label">Message</label>
                 <textarea
                   class="form-control"
                   id="supportMessage"
@@ -748,14 +737,13 @@
 
           if (!subject || !message) return;
 
-          const supportEmail = "support@yourdomain.com";
+          const supportEmail = "{{ support_email }}";
 
           const mailtoLink = `mailto:${supportEmail}?subject=${subject}&body=${message}`;
 
           window.location.href = mailtoLink;
         });
-    </script>
-    <script>
+
       function markAsRead(id) {
         fetch(`/notifications/read/${id}`, {
           method: "POST",
@@ -764,7 +752,8 @@
           .then((data) => {
             const badge = document.getElementById("notif-badge");
             if (data.unread > 0) {
-              badge.innerText = data.unread;
+              badge.textContent = data.unread;
+              badge.style.display = "inline-block";
             } else {
               badge.style.display = "none";
             }
