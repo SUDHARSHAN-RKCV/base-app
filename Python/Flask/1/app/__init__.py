@@ -1,7 +1,7 @@
 # app/__init__.py
 import os
 from pathlib import Path
-from flask import Flask, render_template, request
+from flask import Flask, app, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from dotenv import load_dotenv
@@ -9,30 +9,43 @@ from app.models import db, User
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 IST = ZoneInfo("Asia/Kolkata")
-
+from .extentions import limiter
 load_dotenv()
 
 login_manager = LoginManager()
-secret_key = os.getenv("session_secret_key")
+secret_key = os.getenv("SECRET_KEY")
+from .main import bell
 
 
 
 
 def create_app():
     app = Flask(__name__, static_folder="main/static", template_folder="main/templates")
+    app.config["APP_NAME"] = os.getenv("APP_NAME", "MyApp")
+    app.config["SUPPORT_EMAIL"] = os.getenv("SUPPORT_EMAIL","support@yourdomain.com")
+    from app.main.security import auth
+    app.register_blueprint(auth)
 
+    limiter.init_app(app)
     # ---------------------------
     # Core Config
     # ---------------------------
     app.config['SECRET_KEY'] = secret_key
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("POSTGRES_URI")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-  
+    @app.context_processor
+    def inject_version():
+        return {"app_version": os.getenv("APP_VERSION", "1.0.0")}
 
     # 🔥 Maintenance Toggle
     app.config['MAINTENANCE_MODE'] = os.getenv("MAINTENANCE_MODE", "false").lower() == "true"
     
-    
+    @app.context_processor
+    def inject_app_globals():
+        return {
+            "app_name": app.config.get("APP_NAME"),
+            "support_email": app.config.get("SUPPORT_EMAIL")
+        }
 
     window = os.getenv("MAINTENANCE_WINDOW")
 
@@ -40,7 +53,7 @@ def create_app():
     app.config["MAINTENANCE_WINDOW_END"] = None
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'main.login'
+    login_manager.login_view = 'auth.login'
 
     # ---------------------------
     # Maintenance Interceptor

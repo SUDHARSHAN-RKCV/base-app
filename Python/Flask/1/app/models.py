@@ -33,3 +33,57 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return str(self.user_id)
+
+class SupportTicket(db.Model): #table deprected ticketing via email
+    __tablename__ = "SupportTicket"
+    __table_args__ = {'schema': schema_name}
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey(f"{schema_name}.users.user_id"),
+        nullable=True)
+    email = db.Column(db.String(255), nullable=True)
+
+    subject = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(50), default="open")
+
+    def __repr__(self):
+        return f"<SupportTicket {self.id} - {self.subject}>"
+    
+class Notification(db.Model):
+    __tablename__ = "notifications"
+    __table_args__ = {'schema': schema_name}
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    link = db.Column(db.String(255))
+    is_global = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=current_ist_time)
+
+
+class UserNotification(db.Model):
+    __tablename__ = "user_notifications"
+    __table_args__ = {'schema': schema_name}
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        UUID(as_uuid=True),
+        db.ForeignKey(f"{schema_name}.users.user_id"),
+        nullable=False
+    )
+
+    notification_id = db.Column(
+        db.Integer,
+        db.ForeignKey(f"{schema_name}.notifications.id"),
+        nullable=False
+    )
+
+    is_read = db.Column(db.Boolean, default=False)
+    read_at = db.Column(db.DateTime)
+
+    notification = db.relationship("Notification")
