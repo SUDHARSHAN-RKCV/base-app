@@ -1,7 +1,7 @@
 # app/__init__.py
 import os
 from pathlib import Path
-from flask import Flask, app, render_template, request
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from dotenv import load_dotenv
@@ -9,13 +9,13 @@ from app.models import db, User
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 IST = ZoneInfo("Asia/Kolkata")
-from .extentions import limiter
+from .extensions import limiter
 load_dotenv()
 
 login_manager = LoginManager()
 secret_key = os.getenv("SECRET_KEY")
-from .main import bell
-
+if not secret_key:
+    raise ValueError("SECRET_KEY environment variable must be set")
 
 
 
@@ -26,16 +26,20 @@ def create_app():
     from app.main.security import auth
     app.register_blueprint(auth)
 
+    # if running behind one or more proxies, ensure remote_addr uses X-Forwarded-For
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    # adjust x_for count as needed for your deployment
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
+
     limiter.init_app(app)
     # ---------------------------
     # Core Config
     # ---------------------------
     app.config['SECRET_KEY'] = secret_key
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("POSTGRES_URI")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    @app.context_processor
-    def inject_version():
-        return {"app_version": os.getenv("APP_VERSION", "1.0.0")}
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # ensure application version is available
+    app.config['APP_VERSION'] = os.getenv("APP_VERSION", "0.0.0")
 
     # 🔥 Maintenance Toggle
     app.config['MAINTENANCE_MODE'] = os.getenv("MAINTENANCE_MODE", "false").lower() == "true"
@@ -44,7 +48,8 @@ def create_app():
     def inject_app_globals():
         return {
             "app_name": app.config.get("APP_NAME"),
-            "support_email": app.config.get("SUPPORT_EMAIL")
+            "support_email": app.config.get("SUPPORT_EMAIL"),
+            "app_version": app.config.get("APP_VERSION")
         }
 
     window = os.getenv("MAINTENANCE_WINDOW")
@@ -54,6 +59,13 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
+
+    @app.context_processor
+    def inject_app_name():
+        return {
+            'app_name': app.config.get('APP_NAME', 'APP NAME'),
+            'app_version': app.config.get('APP_VERSION', '0.0.0')
+        }
 
     # ---------------------------
     # Maintenance Interceptor
