@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>APP NAME</title>
+    <title>{{ app_name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="theme-color"
@@ -554,7 +554,7 @@
       <div class="content-column">
         <!-- Sticky Header -->
         <div class="header-island">
-          <div class="text-center flex-grow-1">APP NAME</div>
+          <div class="text-center flex-grow-1">{{ app_name }}</div>
           <div>
             <span id="liveClock">--:--:--</span>
             <button
@@ -580,8 +580,15 @@
         <div class="main">{% block content %}{% endblock %}</div>
 
         <!-- Footer -->
+
         <div class="footer-island justify-content-center">
+          {% if current_user.is_authenticated %}
           <a href="/changelog" class="footer-link">Version 1.0.0</a>
+          {% else %}
+          <span class="text-light opacity-75 d-block"
+            >Version {{ app_version }}</span
+          >
+          {% endif %}
         </div>
       </div>
     </div>

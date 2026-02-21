@@ -27,6 +27,7 @@ def create_app():
     app.config['SECRET_KEY'] = secret_key
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("POSTGRES_URI")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['APP_NAME'] = os.getenv("APP_NAME", "APP NAME")
   
 
     # 🔥 Maintenance Toggle
@@ -41,6 +42,10 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'main.login'
+
+    @app.context_processor
+    def inject_app_name():
+        return {'app_name': app.config.get('APP_NAME', 'APP NAME') }
 
     # ---------------------------
     # Maintenance Interceptor
