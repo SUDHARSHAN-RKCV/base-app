@@ -554,7 +554,7 @@
               >
             </div>
           </div>
-          <a href="/UM" class="settings-link">
+          <a href="/settings" class="settings-link">
             <i class="fas fa-sliders-h"></i>
             <span class="link-text">Settings</span>
           </a>
@@ -613,12 +613,18 @@
 
           <!-- Right Side -->
           <div class="footer-right">
+            {% if current_user.is_authenticated %}
             <a
               class="btn btn-sm btn-outline-light"
               href="mailto:{{ support_email }}?subject=%20Support%20Request for {{ app_name | urlencode }} - "
             >
               <i class="fas fa-life-ring me-1"></i> Contact Support
             </a>
+            {% else %}
+            <a class="btn btn-sm btn-outline-light" href="">
+              <i class="fas fa-life-ring me-1"></i> Contact Support
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@ from flask import (
 from app.extensions import limiter
 import pandas as pd
 from app.models import User, db, UserNotification
-from .security import login, logout
+from .security import login, logout,user_management, create_user as new_user, delete_user, edit_user as update_user
 
 main = Blueprint('main', __name__)
 
@@ -26,7 +26,6 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET'])
 def home():
     return render_template('home.html', active_page="home")
-
 @main.route('/tools', methods=['GET'])
 def tools():
     return render_template('home.html', active_page="tools")
@@ -36,16 +35,24 @@ def dashboard():
 @main.route('/reports', methods=['GET'])
 def reports():
     return render_template('home.html', active_page="reports")
-
-
+@main.route('/settings', methods=['GET'])
+def settings():
+    return render_template('home.html', active_page="settings")
 
 @main.route('/UM', methods=['GET'])
 @login_required
 def admin():
-    # only allow users with admin role (case insensitive)
-    if getattr(current_user, 'role', '').upper() != 'ADMIN':
-        abort(403)
-    return render_template('user/UM.html', active_page="admin")
+   return user_management()
+
+@main.route('/create_user', methods=['GET','POST'])
+@login_required
+def create_user():
+    return new_user()
+
+@main.route('/<uuid:user_id>/edit', methods=['POST'])
+@login_required
+def edit_user(user_id):
+    return update_user(user_id=user_id)
 
 @main.route('/notifications/read/<int:notification_id>', methods=['POST'])
 @login_required

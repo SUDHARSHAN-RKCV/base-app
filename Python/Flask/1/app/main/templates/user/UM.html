@@ -41,6 +41,7 @@
           <th>Email</th>
           <th>Role</th>
           <th>Created At</th>
+          <th>Last Updated On</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
@@ -56,7 +57,11 @@
         >
           <td>{{ user.email }}</td>
           <td>{{ user.role|upper }}</td>
-          <td>{{ user.user_created_on }}</td>
+          <td>{{ user.user_created_on.strftime('%Y-%m-%d %H:%M IST') }}</td>
+          <td>
+            {{ user.last_modified_on.strftime('%Y-%m-%d %H:%M IST') if
+            user.last_modified_on else '' }}
+          </td>
           <td class="text-{{ 'success' if user.is_active else 'danger' }}">
             {{ 'Active' if user.is_active else 'Disabled' }}
           </td>
@@ -110,7 +115,7 @@
       <form
         id="createUserForm"
         method="POST"
-        action="{{ url_for('auth.create_user_post') }}"
+        action="{{ url_for('main.create_user') }}"
       >
         <div class="modal-content">
           <div class="modal-header">

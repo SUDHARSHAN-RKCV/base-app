@@ -20,7 +20,7 @@ def seed_user():
         # Create new user
         new_user = User(
             user_id=uuid.uuid4(),
-            email="user1@mail.com",
+            email="def@admin.com",
             password=generate_password_hash("passq123"),
             role="admin",
             is_active=True

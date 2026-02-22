@@ -145,21 +145,6 @@ def defadmin():
     return redirect(url_for('auth.user_management'))
 
 
-@auth.route('/create', methods=['POST'])
-@login_required
-def create_user_post():
-    if current_user.role.lower() != 'admin':
-        abort(403)
-    email = request.form['email']
-    password = request.form['password']
-    role = request.form['role'].upper()
-    file_permission = request.form.get('file_permission', 'none')
-    hashed_password = generate_password_hash(password)
-    new_user = User(email=email, password=hashed_password, role=role, is_active=True, file_permission=file_permission)
-    db.session.add(new_user)
-    db.session.commit()
-    flash("User created successfully", "success")
-    return redirect(url_for('auth.user_management'))
 
 
 @auth.route('/<uuid:user_id>/edit', methods=['POST'])
@@ -216,8 +201,8 @@ def admin_reset_password(user_id: UUID):
     return redirect(url_for('auth.user_management'))
 
 
-@auth.route('/create_user', methods=['GET', 'POST'])
-def create_user():
+@auth.route('/create_admin', methods=['GET', 'POST'])
+def create_admin(): #used to create inital admin user if no users exist
     form = CreateUserForm()
     if form.validate_on_submit():
         new_user = User(
@@ -232,3 +217,18 @@ def create_user():
     return render_template('user/create_user.html', form=form)
 
 
+@auth.route('/create', methods=['GET','POST'])
+@login_required
+def create_user():
+    if current_user.role.lower() != 'admin':
+        abort(403)
+    email = request.form['email']
+    password = request.form['password']
+    role = request.form['role'].upper()
+    file_permission = request.form.get('file_permission', 'none')
+    hashed_password = generate_password_hash(password)
+    new_user = User(email=email, password=hashed_password, role=role, is_active=True, file_permission=file_permission)
+    db.session.add(new_user)
+    db.session.commit()
+    flash("User created successfully", "success")
+    return redirect(url_for('auth.user_management'))
