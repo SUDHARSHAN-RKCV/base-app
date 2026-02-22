@@ -405,10 +405,10 @@ body {
     display: none;
   }
 
-  .main {
-    border-radius: 0 0 12px 12px;
-    padding: 1em;
-    flex: 1 1 auto;
+  main {
+    border-radius: 12px;
+    padding: 0px 10px 10px 10px;
+    flex: 1 ;
     overflow-y: auto;
   }
 
