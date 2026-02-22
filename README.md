@@ -1,11 +1,4 @@
-🚀 Base App Templates Repository
-
-
-
-
-
-
-
+# 🚀 Base App Templates Repository
 
 A curated collection of secure, stable, production-ready base templates for multiple tech stacks.
 
@@ -105,6 +98,7 @@ Build verification
 
 Example GitHub Actions workflow (.github/workflows/ci.yml):
 
+```yaml
 name: CI Pipeline
 
 on:
@@ -132,6 +126,7 @@ jobs:
         run: |
           pip install snyk
           snyk test || true
+```
 
 🚀 Continuous Deployment (Optional Extensions)
 
@@ -182,34 +177,37 @@ This repository is compatible with:
 Security is treated as a baseline requirement, not an add-on.
 
 📂 Repository Structure
+```
 base-app-templates/
 │
 ├── python/
-│   ├── flask-base/
-│   ├── fastapi-base/
-│   └── django-base/
+│ ├── flask-base/
+│ ├── fastapi-base/
+│ └── django-base/
 │
 ├── node/
-│   ├── express-base/
-│   └── nestjs-base/
+│ ├── express-base/
+│ └── nestjs-base/
 │
 ├── rust/
-│   ├── actix-base/
-│   └── axum-base/
+│ ├── actix-base/
+│ └── axum-base/
 │
 └── frontend/
-    ├── react-base/
-    └── nextjs-base/
-
+  ├── react-base/
+  └── nextjs-base/
+```
 
 Each folder is independently runnable.
 
 🚀 Getting Started
+```bash
 git clone https://github.com/your-username/base-app-templates.git
 cd python/flask-base
 cp .env.example .env
 pip install -r requirements.txt
 python app.py
+```
 
 📌 Contribution Guidelines
 

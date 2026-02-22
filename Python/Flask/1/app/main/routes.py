@@ -1,21 +1,21 @@
-#app/main/routes.py
-from multiprocessing import context
-import os
+#app/main/routes.pyfrom app.models import User, db, SupportTicketimport os
 import base64
 import logging
-from datetime import datetime, timedelta,timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import UUID
 from flask_login import current_user, login_required
+from google import auth
 import markdown
 import requests
 from flask import (
     Flask, request, Blueprint, current_app, jsonify, render_template,
-    redirect, url_for, flash, send_from_directory, send_file,  abort
+    redirect, url_for, flash, send_from_directory, send_file, abort
 )
-from app.extentions import limiter
+from app.extensions import limiter
 import pandas as pd
-from app.models import User, db,SupportTicket,UserNotification
+from app.models import User, db, UserNotification
+from .security import login, logout
 
 main = Blueprint('main', __name__)
 
@@ -23,25 +23,53 @@ main = Blueprint('main', __name__)
 # main Routes
 # ------------------------
 
-@main.route('/')
+@main.route('/', methods=['GET'])
 def home():
-    return render_template('home.html',unread_count=0,active_page="home")
+    return render_template('home.html', active_page="home")
 
-@main.route('/tools')
+@main.route('/tools', methods=['GET'])
 def tools():
-    return render_template('home.html',unread_count=0,active_page="tools")
-@main.route('/dashboard')
+    return render_template('home.html', active_page="tools")
+@main.route('/dashboard', methods=['GET'])
 def dashboard():
-    return render_template('home.html',unread_count=0,active_page="dashboard")
-@main.route('/admin')
+    return render_template('home.html', active_page="dashboard")
+@main.route('/reports', methods=['GET'])
+def reports():
+    return render_template('home.html', active_page="reports")
+
+
+
+@main.route('/UM', methods=['GET'])
+@login_required
 def admin():
-    return render_template('home.html',unread_count=0,active_page="admin")
+    # only allow users with admin role (case insensitive)
+    if getattr(current_user, 'role', '').upper() != 'ADMIN':
+        abort(403)
+    return render_template('user/UM.html', active_page="admin")
 
+@main.route('/notifications/read/<int:notification_id>', methods=['POST'])
+@login_required
+def mark_notification_read(notification_id):
+    # ensure notification belongs to current user
+    notif = UserNotification.query.filter_by(id=notification_id, user_id=current_user.user_id).first()
+    if not notif:
+        abort(404)
+    notif.is_read = True
+    notif.read_at = datetime.now(timezone.utc)
+    db.session.commit()
+    unread = UserNotification.query.filter_by(user_id=current_user.user_id, is_read=False).count()
+    return jsonify({"unread": unread})
 
+@main.route('/login', methods=['GET', 'POST'])
+def login_route():
+    return login()
 
+@main.route('/logout', methods=['GET'])
+def logout_route():
+    return logout()
 
-@main.route('/changelog')
-#@login_required
+@main.route('/changelog', methods=['GET'])
+@login_required
 def changelog():
     changelog_path = Path(current_app.root_path).parent / "changelog.md"
 
@@ -54,29 +82,3 @@ def changelog():
         html_content = "<p><strong>Error loading changelog.</strong></p>"
     return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
 
-@main.route("/support", methods=["POST"])
-def support():
-    subject = request.form.get("subject", "").strip()
-    message = request.form.get("message", "").strip()
-
-    if not subject or not message:
-        flash("Subject and message are required.", "danger")
-        return redirect(request.referrer or url_for("main.home"))
-
-    if len(subject) > 255:
-        flash("Subject is too long.", "danger")
-        return redirect(request.referrer or url_for("main.home"))
-
-    ticket = SupportTicket(
-        user_id=current_user.id if current_user.is_authenticated else None,
-        email=current_user.email if current_user.is_authenticated else None,
-        subject=subject,
-        message=message
-    )
-
-    db.session.add(ticket)
-    db.session.commit()
-    current_app.logger.info(f"New support ticket: {subject}")
-
-    flash("Support ticket submitted successfully.", "success")
-    return redirect(request.referrer or url_for("main.home"))

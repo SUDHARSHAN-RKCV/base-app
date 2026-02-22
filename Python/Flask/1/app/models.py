@@ -10,7 +10,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-schema_name=os.getenv("schema_name", "secops_db")
+schema_name=os.getenv("schema_name", "app_db")  # default matches migration schema creation
+
 
 def current_ist_time():
     return datetime.now(ZoneInfo("Asia/Kolkata")).replace(tzinfo=None, microsecond=0)
@@ -34,7 +35,11 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return str(self.user_id)
 
-class SupportTicket(db.Model): #table deprected ticketing via email
+class SupportTicket(db.Model):
+    # Deprecated: kept for legacy reads until migration is complete.
+    # New ticketing system should use a different model; remove this class and
+    # drop the table in a future migration once clients have moved off it.
+    # (Original table used for email-based support tickets.)
     __tablename__ = "SupportTicket"
     __table_args__ = {'schema': schema_name}
     id = db.Column(db.Integer, primary_key=True)
@@ -67,7 +72,14 @@ class Notification(db.Model):
 
 class UserNotification(db.Model):
     __tablename__ = "user_notifications"
-    __table_args__ = {'schema': schema_name}
+    __table_args__ = (
+        db.UniqueConstraint(
+            'user_id',
+            'notification_id',
+            name='unique_user_notification'
+        ),
+        {'schema': schema_name}  # MUST be last
+    )
 
     id = db.Column(db.Integer, primary_key=True)
 

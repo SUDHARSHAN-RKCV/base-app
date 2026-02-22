@@ -70,8 +70,8 @@
               </button>
               <form
                 method="POST"
-                action="{{ url_for('main.delete_user', user_id=user.user_id) }}"
-                onsubmit="return confirm('Are you sure?')"
+                action="{{ url_for('auth.delete_user', user_id=user.user_id) }}"
+                onsubmit="return confirm('Are you sure?');"
               >
                 <button class="btn btn-sm btn-danger" type="submit">
                   Delete
@@ -85,7 +85,7 @@
               </button>
               <form
                 method="POST"
-                action="{{ url_for('main.toggle_user_status', user_id=user.user_id) }}"
+                action="{{ url_for('auth.toggle_user_status', user_id=user.user_id) }}"
               >
                 <button class="btn btn-sm btn-secondary" type="submit">
                   {{ 'Disable' if user.is_active else 'Enable' }}
@@ -110,7 +110,7 @@
       <form
         id="createUserForm"
         method="POST"
-        action="{{ url_for('main.create_user_post') }}"
+        action="{{ url_for('auth.create_user_post') }}"
       >
         <div class="modal-content">
           <div class="modal-header">

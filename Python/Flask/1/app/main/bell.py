@@ -20,19 +20,25 @@ def inject_notifications():
         .all()
     )
 
-    unread_count = UserNotification.query.filter_by(
-        user_id=current_user.user_id,
-        is_read=False
-    ).count()
+    # derive unread count without always doing a second query
+    unread_count = len(notifications)
+    if unread_count >= 10:
+        # there could be more unread notifications; perform a full count
+        unread_count = UserNotification.query.filter_by(
+            user_id=current_user.user_id,
+            is_read=False
+        ).count()
 
-    formatted = [
-        {
+    # skip any rows where the relationship failed to load
+    formatted = []
+    for n in notifications:
+        if not getattr(n, 'notification', None):
+            continue
+        formatted.append({
             "id": n.id,
             "message": n.notification.message,
             "link": n.notification.link or "#"
-        }
-        for n in notifications
-    ]
+        })
 
     return {
         "notifications": formatted,

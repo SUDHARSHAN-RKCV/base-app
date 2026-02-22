@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS app_db.users (
     file_permission VARCHAR(10) NOT NULL DEFAULT 'none',
 
     CONSTRAINT role_check
-        CHECK (role IN ('admin', 'user') OR role IS NULL)
+        CHECK (LOWER(role) IN ('admin', 'user') OR role IS NULL)
 );
 
 -- Case-insensitive unique email
@@ -39,7 +39,24 @@ ON app_db.users (LOWER(email));
 
 
 -- =========================================
--- 4️⃣  NOTIFICATIONS TABLE
+-- 4️⃣  SUPPORT TICKETS TABLE (legacy)
+-- =========================================
+CREATE TABLE IF NOT EXISTS app_db."SupportTicket" (
+    id SERIAL PRIMARY KEY,
+    user_id UUID NULL,
+    email VARCHAR(255),
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    status VARCHAR(50) NOT NULL DEFAULT 'open',
+    CONSTRAINT fk_ticket_user
+        FOREIGN KEY (user_id)
+        REFERENCES app_db.users(user_id)
+        ON DELETE SET NULL
+);
+
+-- =========================================
+-- 5️⃣  NOTIFICATIONS TABLE
 -- =========================================
 CREATE TABLE IF NOT EXISTS app_db.notifications (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

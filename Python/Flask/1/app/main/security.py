@@ -28,7 +28,7 @@ from dotenv import load_dotenv
 
 from app import db
 from app.models import User
-#from app.config import POSTGRES_URI
+
 from .forms import CreateUserForm
 
 load_dotenv()
@@ -43,7 +43,7 @@ logger.setLevel(logging.INFO)
 # ------------------------
 # Auth Routes
 # ------------------------
-@auth.route('/login', methods=['GET', 'POST'])
+
 def login():
     if current_user.is_authenticated:
         return '', 204
@@ -60,12 +60,12 @@ def login():
     return render_template('user/login.html')
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
     flash('You have been logged out.', 'info')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('main.home'))
 
 
 @auth.route('/settings', methods=['GET', 'POST'])
@@ -85,14 +85,21 @@ def user_settings():
 RESET_PASSWORD_FORM_TEMPLATE = 'user/reset_password_form.html'
 
 
+from .forms import CreateUserForm, CSRFOnlyForm
+
 @auth.route('/reset-password-form', methods=['GET', 'POST'])
 def reset_password_form():
-    return render_template(RESET_PASSWORD_FORM_TEMPLATE, email='')
+    form = CSRFOnlyForm()
+    return render_template(RESET_PASSWORD_FORM_TEMPLATE, email='', form=form)
 
 
 @auth.route('/reset-password', methods=['GET', 'POST'])
 @auth.route('/forgot-password', methods=['GET', 'POST'])
 def reset_password_form_handler():
+    form = CSRFOnlyForm()
+    if not form.validate_on_submit():
+        flash("Invalid form submission.", "danger")
+        return redirect(url_for('auth.reset_password_form'))
     email = request.form.get('email')
     new_password = request.form.get('new_password')
     confirm_password = request.form.get('confirm_password')
@@ -124,7 +131,7 @@ def reset_password_form_handler():
 # Admin User Management
 # ------------------------
 
-@auth.route('/UM')
+@auth.route('/UM', methods=['GET'])
 @login_required
 def user_management():
     if current_user.role.lower() != 'admin':
@@ -133,7 +140,7 @@ def user_management():
     return render_template('user/UM.html', users=users, active_page='UM', current_user=current_user)
 
 
-@auth.route('/defadmin')
+@auth.route('/defadmin', methods=['GET'])
 def defadmin():
     return redirect(url_for('auth.user_management'))
 
