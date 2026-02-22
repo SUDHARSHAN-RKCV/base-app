@@ -22,10 +22,10 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     __table_args__ = {'schema': schema_name}  # Change schema name if needed
 
-    user_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
-    email = db.Column(db.String, nullable=False, unique=True)
+    user_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False, index=True)
+    email = db.Column(db.String, nullable=False, unique=True, index=True)
     password = db.Column(db.String, nullable=False)
-    role = db.Column(db.String, nullable=True)
+    role = db.Column(db.String, nullable=True, index=True)
     user_created_on = db.Column(db.DateTime, default=current_ist_time, nullable=False)
     last_modified_on = db.Column(db.DateTime, onupdate=datetime.utcnow)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
@@ -34,30 +34,7 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return str(self.user_id)
-
-class SupportTicket(db.Model):
-    # Deprecated: kept for legacy reads until migration is complete.
-    # New ticketing system should use a different model; remove this class and
-    # drop the table in a future migration once clients have moved off it.
-    # (Original table used for email-based support tickets.)
-    __tablename__ = "SupportTicket"
-    __table_args__ = {'schema': schema_name}
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(
-        UUID(as_uuid=True),
-        db.ForeignKey(f"{schema_name}.users.user_id"),
-        nullable=True)
-    email = db.Column(db.String(255), nullable=True)
-
-    subject = db.Column(db.String(255), nullable=False)
-    message = db.Column(db.Text, nullable=False)
-
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    status = db.Column(db.String(50), default="open")
-
-    def __repr__(self):
-        return f"<SupportTicket {self.id} - {self.subject}>"
-    
+  
 class Notification(db.Model):
     __tablename__ = "notifications"
     __table_args__ = {'schema': schema_name}

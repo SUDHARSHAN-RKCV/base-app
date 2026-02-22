@@ -58,7 +58,7 @@ def create_app():
     app.config["MAINTENANCE_WINDOW_END"] = None
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'main.login_route'
 
     @app.context_processor
     def inject_app_name():

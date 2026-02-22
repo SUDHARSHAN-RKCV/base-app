@@ -16,28 +16,39 @@
 
     <!-- Filters -->
     <div class="row mb-3">
-      <div class="col-md-6">
-        <input
-          type="text"
-          id="filterInput"
-          class="form-control"
-          placeholder="Search by email, or role"
-        />
-      </div>
-      <div class="col-md-6">
-        <select id="roleFilter" class="form-select">
-          <option value="">Filter by Role</option>
-          <option value="SRE">SRE</option>
-          <option value="Manager">Manager</option>
-          <option value="ADMIN">ADMIN</option>
-        </select>
-      </div>
+      <form method="GET" action="{{ url_for('main.user_management') }}">
+        <div class="row mb-3">
+          <div class="col-md-5">
+            <input
+              type="text"
+              name="search"
+              class="form-control"
+              placeholder="Search by email, role, user ID"
+              value="{{ request.args.get('search', '') }}"
+            />
+          </div>
+      
+          <div class="col-md-4">
+            <select name="role" class="form-select">
+              <option value="">Filter by Role</option>
+              <option value="SRE" {{ 'selected' if request.args.get('role')=='SRE' else '' }}>SRE</option>
+              <option value="Manager" {{ 'selected' if request.args.get('role')=='Manager' else '' }}>Manager</option>
+              <option value="ADMIN" {{ 'selected' if request.args.get('role')=='ADMIN' else '' }}>ADMIN</option>
+            </select>
+          </div>
+      
+          <div class="col-md-3">
+            <button class="btn btn-primary w-100">Search</button>
+          </div>
+        </div>
+      </form>
     </div>
 
     <!-- User Table -->
     <table class="table table-bordered table-striped">
       <thead class="table-light">
         <tr>
+          <th>User ID</th>
           <th>Email</th>
           <th>Role</th>
           <th>Created At</th>
@@ -55,11 +66,12 @@
           data-active="{{ 'true' if user.is_active else 'false' }}"
           data-permission="{{ user.file_permission or 'none' }}"
         >
+          <td>{{ user.user_id }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role|upper }}</td>
-          <td>{{ user.user_created_on.strftime('%Y-%m-%d %H:%M IST') }}</td>
+          <td>{{ user.user_created_on.strftime('%d-%b-%Y IST') }}</td>
           <td>
-            {{ user.last_modified_on.strftime('%Y-%m-%d %H:%M IST') if
+            {{ user.last_modified_on.strftime('%d-%b-%Y IST') if
             user.last_modified_on else '' }}
           </td>
           <td class="text-{{ 'success' if user.is_active else 'danger' }}">
@@ -75,7 +87,7 @@
               </button>
               <form
                 method="POST"
-                action="{{ url_for('auth.delete_user', user_id=user.user_id) }}"
+                action="{{ url_for('main.delete_user', user_id=user.user_id) }}"
                 onsubmit="return confirm('Are you sure?');"
               >
                 <button class="btn btn-sm btn-danger" type="submit">
@@ -90,7 +102,7 @@
               </button>
               <form
                 method="POST"
-                action="{{ url_for('auth.toggle_user_status', user_id=user.user_id) }}"
+                action="{{ url_for('main.toggle_user_status', user_id=user.user_id) }}"
               >
                 <button class="btn btn-sm btn-secondary" type="submit">
                   {{ 'Disable' if user.is_active else 'Enable' }}
@@ -102,6 +114,41 @@
         {% endfor %}
       </tbody>
     </table>
+    <nav aria-label="User pagination">
+      <ul class="pagination justify-content-center">
+    
+        {% if pagination.has_prev %}
+        <li class="page-item">
+          <a class="page-link"
+             href="{{ url_for('main.user_management',
+                              page=pagination.prev_num,
+                              search=request.args.get('search'),
+                              role=request.args.get('role')) }}">
+             Previous
+          </a>
+        </li>
+        {% endif %}
+    
+        <li class="page-item disabled">
+          <span class="page-link">
+            Page {{ pagination.page }} of {{ pagination.pages }}
+          </span>
+        </li>
+    
+        {% if pagination.has_next %}
+        <li class="page-item">
+          <a class="page-link"
+             href="{{ url_for('main.user_management',
+                              page=pagination.next_num,
+                              search=request.args.get('search'),
+                              role=request.args.get('role')) }}">
+             Next
+          </a>
+        </li>
+        {% endif %}
+    
+      </ul>
+    </nav>
   </div>
 
   <!-- Create User Modal -->
@@ -155,8 +202,8 @@
                 <option value="ADMIN">ADMIN</option>
               </select>
             </div>
-            <div class="mb-3">
-              <label class="form-label">File Access Level</label><br />
+            <fieldset class="mb-3">
+              <legend class="form-label">File Access Level</legend>
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -198,7 +245,7 @@
                 />
                 <label class="form-check-label" for="permNone">No Access</label>
               </div>
-            </div>
+            </fieldset>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Create</button>
@@ -239,8 +286,8 @@
               />
               <label class="form-check-label" for="editIsActive">Active</label>
             </div>
-            <div class="mb-3 mt-3">
-              <label class="form-label">File Access Level</label><br />
+            <fieldset class="mb-3 mt-3">
+              <legend class="form-label">File Access Level</legend>
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -287,7 +334,7 @@
                   >No Access</label
                 >
               </div>
-            </div>
+            </fieldset>
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" type="submit">Save Changes</button>
@@ -337,24 +384,7 @@
 
   <!-- JS Filters and Role Visibility -->
   <script>
-    const filterInput = document.getElementById("filterInput");
-    const roleFilter = document.getElementById("roleFilter");
-
-    function applyFilters() {
-      const search = filterInput.value.trim().toLowerCase();
-      const selectedRole = roleFilter.value.trim().toLowerCase();
-
-      document.querySelectorAll("#userBody tr").forEach((row) => {
-        const email = row.dataset.email.toLowerCase();
-        const role = row.dataset.role.toLowerCase();
-
-        const matchesSearch =
-          !search || email.includes(search) || role.includes(search);
-        const matchesRole = !selectedRole || role === selectedRole;
-
-        row.style.display = matchesSearch && matchesRole ? "" : "none";
-      });
-    }
+    
 
     filterInput.addEventListener("input", applyFilters);
     roleFilter.addEventListener("change", applyFilters);

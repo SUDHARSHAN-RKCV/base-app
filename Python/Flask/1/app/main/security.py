@@ -21,7 +21,7 @@ import pandas as pd
 import markdown as md
 
 import boto3
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine,or_, cast, String
 from dateutil import parser as dateparser
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
@@ -131,13 +131,43 @@ def reset_password_form_handler():
 # Admin User Management
 # ------------------------
 
-@auth.route('/UM', methods=['GET'])
+@auth.route('/UM', methods=["GET"])
 @login_required
 def user_management():
     if current_user.role.lower() != 'admin':
         abort(403)
-    users = User.query.all()
-    return render_template('user/UM.html', users=users, active_page='UM', current_user=current_user)
+
+    page = request.args.get("page", 1, type=int)
+    search = request.args.get("search", "", type=str)
+    role = request.args.get("role", "", type=str)
+
+    per_page = 50
+    query = User.query
+
+    # 🔎 Search filter
+    if search:
+        query = query.filter(
+            or_(
+                User.email.ilike(f"%{search}%"),
+                User.role.ilike(f"%{search}%"),
+                cast(User.user_id, String).ilike(f"%{search}%")
+            )
+        )
+
+    # 🎭 Role filter
+    if role:
+        query = query.filter(User.role == role)
+
+    query = query.order_by(User.user_created_on.desc())
+
+    users = query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        "user/UM.html",
+        users=users.items,
+        pagination=users,
+        active_page='UM'
+    )
 
 
 @auth.route('/defadmin', methods=['GET'])

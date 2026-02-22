@@ -6417,3 +6417,117 @@ Traceback (most recent call last):
     unread_count=""
     ^^^^^^^^^
 jinja2.exceptions.TemplateSyntaxError: expected token 'end of statement block', got '='
+2026-02-22 21:00:42,444 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | H:\base-app\Python\Flask\1\app\__init__.py:151
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\helpers.py", line 239, in url_for
+    return current_app.url_for(
+           ~~~~~~~~~~~~~~~~~~~^
+        endpoint,
+        ^^^^^^^^^
+    ...<4 lines>...
+        **values,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.login'. Did you mean 'auth.logout' instead?
+2026-02-22 21:01:25,611 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | h:\base-app\Python\Flask\1\app\__init__.py:151
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\helpers.py", line 239, in url_for
+    return current_app.url_for(
+           ~~~~~~~~~~~~~~~~~~~^
+        endpoint,
+        ^^^^^^^^^
+    ...<4 lines>...
+        **values,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'auth.login'. Did you mean 'auth.logout' instead?
+2026-02-22 21:02:37,526 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | h:\base-app\Python\Flask\1\app\__init__.py:151
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 285, in decorated_view
+    return current_app.login_manager.unauthorized()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\login_manager.py", line 196, in unauthorized
+    redirect_url = make_login_url(login_view, next_url=request.url)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 120, in login_url
+    base = expand_login_view(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_login\utils.py", line 97, in expand_login_view
+    return url_for(login_view)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\helpers.py", line 239, in url_for
+    return current_app.url_for(
+           ~~~~~~~~~~~~~~~~~~~^
+        endpoint,
+        ^^^^^^^^^
+    ...<4 lines>...
+        **values,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.login'. Did you mean 'main.login_route' instead?
