@@ -22,8 +22,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   padding-bottom: 20px; 
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 /*UTILITIES */

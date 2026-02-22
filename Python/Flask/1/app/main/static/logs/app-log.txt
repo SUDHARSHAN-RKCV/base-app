@@ -6390,3 +6390,30 @@ DETAIL:  Failing row contains (9fdeb146-084d-4bce-921f-517af6dcdaa5, user2@mail.
 [SQL: INSERT INTO app_db.users (user_id, email, password, role, user_created_on, last_modified_on, is_active, theme, file_permission) VALUES (%(user_id)s::UUID, %(email)s, %(password)s, %(role)s, %(user_created_on)s, %(last_modified_on)s, %(is_active)s, %(theme)s, %(file_permission)s)]
 [parameters: {'user_id': UUID('9fdeb146-084d-4bce-921f-517af6dcdaa5'), 'email': 'user2@mail.com', 'password': 'scrypt:32768:8:1$XKn3UskFQk4D5TKp$7dc81c8ebdf871ec1b47d0cb02bbdd91d20d575aa01cbf830fc362679c4a6df200f62ed23e1b756c47fc1b4f4be01887237316739fa606b10ccd37200c69d3f6', 'role': 'SRE', 'user_created_on': datetime.datetime(2026, 2, 22, 16, 5, 26), 'last_modified_on': None, 'is_active': True, 'theme': 'system', 'file_permission': 'view'}]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-02-22 18:53:24,816 | ERROR | Unhandled Exception - GET / - IP: 127.0.0.1 | H:\base-app\Python\Flask\1\app\__init__.py:151
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "H:\base-app\Python\Flask\1\app\main\routes.py", line 28, in home
+    return render_template('home.html', active_page="home")
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "H:\base-app\Python\Flask\1\app\main\templates\home.html", line 2, in top-level template code
+    {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "H:\base-app\Python\Flask\1\app\main\templates\base.html", line 587, in template
+    unread_count=""
+    ^^^^^^^^^
+jinja2.exceptions.TemplateSyntaxError: expected token 'end of statement block', got '='

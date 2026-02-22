@@ -576,17 +576,13 @@
               title="Open notifications"
             >
               <i class="fas fa-bell ms-3"></i>
-              <span class="visually-hidden">Open notifications</span>
-              {% if unread_count is defined and unread_count|default(0) > 0 %}
               <span
                 id="notif-badge"
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                {% if not unread_count or unread_count == 0 %}style="display: none;"{% endif %}
               >
                 {{ unread_count|default(0) }}
               </span>
-              {% else %}
-              <span id="notif-badge" style="display: none"></span>
-              {% endif %}
             </button>
           </div>
         </div>
