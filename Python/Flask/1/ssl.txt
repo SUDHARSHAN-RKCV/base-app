@@ -1,0 +1,124 @@
+FLASK + GUNICORN + SSL ON PORT 443
+Standard Deployment Reference (Ubuntu)
+
+SECTION 1 — SYSTEM PREPARATION
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3 python3-venv python3-pip libcap2-bin ufw -y
+sudo ufw allow 22
+sudo ufw allow 443
+sudo ufw enable
+
+
+Step 2 — Create virtual environment
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install gunicorn
+sudo setcap 'cap_net_bind_service=+ep' /opt/myapp/venv/bin/python3
+
+
+SECTION 3 — APPLICATION STRUCTURE STANDARD
+ensure code hirarchy follows standard pattern
+
+
+/opt /ssl-certs/
+/opt /venv/
+/opt /sources/
+/opt /myapp/
+			/app/
+				/__init__.py
+				/routes.py
+				/models.py
+			/wsgi.py
+			/requirements.txt
+			
+			
+wsgi.py
+	from app import create_app
+
+	app = create_app()
+	
+SECTION 4 — TEST RUN GUNICORN WITH SSL
+
+gunicorn \
+  --workers 3 \
+  --bind 0.0.0.0:443 \
+  --certfile /etc/ssl/myapp/fullchain.pem \
+  --keyfile /etc/ssl/myapp/privkey.pem \
+  wsgi:app
+  
+  
+  check app to be live
+  
+  
+SECTION 5 — CREATE SYSTEMD SERVICE (PRODUCTION MODE)
+
+sudo vim /etc/systemd/system/myapp.service
+
+[Unit]
+Description=Gunicorn instance for myapp
+After=network.target
+
+[Service]
+User=appuser (or root)
+
+WorkingDirectory=/opt/myapp
+Environment="PATH=/opt/venv/bin"
+ExecStart=/opt/venv/bin/gunicorn \
+          --workers 3 \
+          --bind 0.0.0.0:443 \
+          --certfile /opt /ssl-certs/fullchain.pem \
+          --keyfile /opt /ssl-certs/privkey.pem \
+          wsgi:app
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start myapp
+sudo systemctl enable myapp
+
+
+SECTION 6 — VALIDATION CHECKLIST
+
+confirm app is running without errors and locks
+
+ss -tulpn | grep 443
+openssl s_client -connect yourdomain.com:443
+
+----------------------------xxxx-------------x-x-x-x-x---------------------xxxxx-----------------
+
+pointers to sys design
+
+STANDARD WORKER CALCULATION for (gunicorn)
+
+Rule of thumb:
+
+Workers = (2 × CPU cores) + 1
+
+Example:
+2-core VPS → 5 workers
+4-core VPS → 9 workers
+
+For small VPS (1GB RAM), reduce workers to avoid memory exhaustion.
+
+
+LIMITATIONS OF THIS MODEL
+
+This setup does NOT provide:
+
+Reverse proxy buffering
+
+DDoS mitigation
+
+Web application firewall
+
+HTTP to HTTPS redirect (must be coded in Flask)
+
+Advanced TLS tuning
+
+For high-traffic or public-facing critical systems, introduce Nginx
