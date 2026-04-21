@@ -40,6 +40,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # ensure application version is available
     app.config['APP_VERSION'] = os.getenv("APP_VERSION", "0.0.0")
+    app.config['RUM_appId'] = os.getenv("applicationId")
+    app.config['RUM_Token'] = os.getenv("clientToken")
 
     # 🔥 Maintenance Toggle
     app.config['MAINTENANCE_MODE'] = os.getenv("MAINTENANCE_MODE", "false").lower() == "true"
