@@ -100,7 +100,5 @@ def js_config():
     }
     if current_user.is_authenticated:
         config["userId"]    = current_user.user_id
-        config["userEmail"] = current_user.email
-        config["userRole"]  = current_user.role
 
     return jsonify(config)
