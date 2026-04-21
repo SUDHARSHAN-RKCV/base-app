@@ -1,5 +1,5 @@
 #app/main/routes.py
-from app.models import User, db, SupportTicket
+from app.models import User, db
 import os
 import base64
 import logging
@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import UUID
 from flask_login import current_user, login_required
-from google import auth
+#from google import auth
 import markdown
 import requests
 from flask import (

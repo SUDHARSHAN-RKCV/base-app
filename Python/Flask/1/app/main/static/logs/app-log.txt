@@ -6531,3 +6531,296 @@ Traceback (most recent call last):
   File "C:\Users\sid\AppData\Local\Programs\Python\Python313\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
     raise BuildError(endpoint, values, method, self)
 werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.login'. Did you mean 'main.login_route' instead?
+2026-04-21 22:02:20,853 | ERROR | Unhandled Exception - POST /login - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\validators.py", line 401, in __call__
+    import email_validator
+ModuleNotFoundError: No module named 'email_validator'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 74, in login_route
+    return login()
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 50, in login
+    if form.validate_on_submit():
+       ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_wtf\form.py", line 86, in validate_on_submit
+    return self.is_submitted() and self.validate(extra_validators=extra_validators)
+                                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\form.py", line 330, in validate
+    return super().validate(extra)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\form.py", line 147, in validate
+    if not field.validate(self, extra):
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\fields\core.py", line 234, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\fields\core.py", line 254, in _run_validation_chain
+    validator(form, self)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\wtforms\validators.py", line 403, in __call__
+    raise Exception(
+        "Install 'email_validator' for email validation support."
+    ) from exc
+Exception: Install 'email_validator' for email validation support.
+2026-04-21 22:04:19,417 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 47, in admin
+    return user_management()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 167, in user_management
+    return render_template(
+        "user/UM.html",
+    ...<2 lines>...
+        active_page='UM'
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block content %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\base.html", line 199, in top-level template code
+    <div class="main">{% block content %}{% endblock %}</div>
+    ^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 19, in block 'content'
+    <form method="GET" action="{{ url_for('main.user_management') }}">
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.user_management'. Did you mean 'auth.user_management' instead?
+2026-04-21 22:05:07,712 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 47, in admin
+    return user_management()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 167, in user_management
+    return render_template(
+        "user/UM.html",
+    ...<2 lines>...
+        active_page='UM'
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block content %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\base.html", line 199, in top-level template code
+    <div class="main">{% block content %}{% endblock %}</div>
+    ^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 19, in block 'content'
+    <form method="GET" action="{{ url_for('main.user_management') }}">
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.user_management'. Did you mean 'auth.user_management' instead?
+2026-04-21 22:06:23,093 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 47, in admin
+    return user_management()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 167, in user_management
+    return render_template(
+        "user/UM.html",
+    ...<2 lines>...
+        active_page='UM'
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block content %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\base.html", line 199, in top-level template code
+    <div class="main">{% block content %}{% endblock %}</div>
+    ^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 90, in block 'content'
+    action="{{ url_for('main.delete_user', user_id=user.user_id) }}"
+    ^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.delete_user' with values ['user_id']. Did you mean 'auth.delete_user' instead?
+2026-04-21 22:07:14,886 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 47, in admin
+    return user_management()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 167, in user_management
+    return render_template(
+        "user/UM.html",
+    ...<2 lines>...
+        active_page='UM'
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block content %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\base.html", line 199, in top-level template code
+    <div class="main">{% block content %}{% endblock %}</div>
+    ^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 90, in block 'content'
+    action="{{ url_for('auth.delete_user', user_id=user.user_id) }}"
+    ^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.delete_user' with values ['user_id']. Did you mean 'auth.delete_user' instead?
+2026-04-21 22:07:47,250 | ERROR | Unhandled Exception - GET /UM - IP: 127.0.0.1 | e:\base-app\base-app\Python\Flask\1\app\__init__.py:153
+Traceback (most recent call last):
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\routes.py", line 47, in admin
+    return user_management()
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\security.py", line 167, in user_management
+    return render_template(
+        "user/UM.html",
+    ...<2 lines>...
+        active_page='UM'
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 1, in top-level template code
+    {% extends "base.html" %} {% block content %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\base.html", line 199, in top-level template code
+    <div class="main">{% block content %}{% endblock %}</div>
+    ^^^^^^^^^^^^^^^^^
+  File "e:\base-app\base-app\Python\Flask\1\app\main\templates\user\UM.html", line 105, in block 'content'
+    action="{{ url_for('main.toggle_user_status', user_id=user.user_id) }}"
+    ^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1697, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\flask\app.py", line 1686, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "C:\Users\sid\AppData\Roaming\Python\Python314\site-packages\werkzeug\routing\map.py", line 950, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.toggle_user_status' with values ['user_id']. Did you mean 'auth.toggle_user_status' instead?

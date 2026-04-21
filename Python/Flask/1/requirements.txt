@@ -4,9 +4,12 @@ Werkzeug==2.3.8
 Jinja2
 itsdangerous
 click
-numpy==1.22.0
+numpy
 pandas
 blinker
+markdown
+PyMuPDF
+mammoth
 
 # Production WSGI Server
 gunicorn
@@ -29,6 +32,7 @@ bcrypt
 passlib
 cryptography==45.0.7
 Flask-Talisman
+email_validator
 
 # Session Management
 Flask-Session

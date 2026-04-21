@@ -13,7 +13,7 @@ from flask import (
 )
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import CreateUserForm, LoginForm
+from .forms import CreateUserForm, LoginForm
 from app.models import User, db
 
 import fitz  # PyMuPDF
@@ -21,7 +21,7 @@ import mammoth
 import pandas as pd
 import markdown as md
 
-import boto3
+#import boto3
 from sqlalchemy import create_engine,or_, cast, String
 from dateutil import parser as dateparser
 from zoneinfo import ZoneInfo
