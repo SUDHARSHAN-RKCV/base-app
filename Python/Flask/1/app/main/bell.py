@@ -11,6 +11,13 @@ def inject_notifications():
     if not current_user.is_authenticated:
         return {"notifications": [], "unread_count": 0}
 
+    # Always do a proper count instead of assuming from limit
+    unread_count = UserNotification.query.filter_by(
+        user_id=current_user.user_id,
+        is_read=False
+    ).count()
+
+    # Still limit display to 10 for performance
     notifications = (
         UserNotification.query
         .options(joinedload(UserNotification.notification))
@@ -19,15 +26,6 @@ def inject_notifications():
         .limit(10)
         .all()
     )
-
-    # derive unread count without always doing a second query
-    unread_count = len(notifications)
-    if unread_count >= 10:
-        # there could be more unread notifications; perform a full count
-        unread_count = UserNotification.query.filter_by(
-            user_id=current_user.user_id,
-            is_read=False
-        ).count()
 
     # skip any rows where the relationship failed to load
     formatted = []

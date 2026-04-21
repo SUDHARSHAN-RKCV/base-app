@@ -1,4 +1,6 @@
-#app/main/routes.pyfrom app.models import User, db, SupportTicketimport os
+#app/main/routes.py
+from app.models import User, db, SupportTicket
+import os
 import base64
 import logging
 from datetime import datetime, timedelta, timezone

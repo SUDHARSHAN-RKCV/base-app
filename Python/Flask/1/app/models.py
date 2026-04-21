@@ -27,7 +27,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String, nullable=False)
     role = db.Column(db.String, nullable=True, index=True)
     user_created_on = db.Column(db.DateTime, default=current_ist_time, nullable=False)
-    last_modified_on = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    last_modified_on = db.Column(db.DateTime, onupdate=current_ist_time)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     theme = db.Column(db.String(10), default='system')
     file_permission = db.Column(db.String(10), default='none') 

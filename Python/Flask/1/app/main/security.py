@@ -13,7 +13,8 @@ from flask import (
 )
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from forms import CreateUserForm, LoginForm
+from app.models import User, db
 
 import fitz  # PyMuPDF
 import mammoth
@@ -45,11 +46,18 @@ logger.setLevel(logging.INFO)
 # ------------------------
 
 def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
     if current_user.is_authenticated:
         return '', 204
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
+        if not email or not password:
+            flash('Email and password required.', 'danger')
+            return render_template('user/login.html')
         user = User.query.filter_by(email=email).first()
         if user and user.is_active and check_password_hash(user.password, password):
             login_user(user)
@@ -146,13 +154,7 @@ def user_management():
 
     # 🔎 Search filter
     if search:
-        query = query.filter(
-            or_(
-                User.email.ilike(f"%{search}%"),
-                User.role.ilike(f"%{search}%"),
-                cast(User.user_id, String).ilike(f"%{search}%")
-            )
-        )
+        query = query.filter(User.email.ilike(f"%{search}%"))
 
     # 🎭 Role filter
     if role:

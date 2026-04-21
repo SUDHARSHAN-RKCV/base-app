@@ -105,7 +105,7 @@ def create_app():
         end = app.config.get("MAINTENANCE_WINDOW_END")
         
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc).astimezone(IST)
 
         # If window defined, check time
         if start and end:

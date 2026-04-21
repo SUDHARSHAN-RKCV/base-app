@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField,SelectField
 from wtforms.validators import DataRequired, Email, Length
 
 class CreateUserForm(FlaskForm):
@@ -10,3 +10,14 @@ class CreateUserForm(FlaskForm):
 # simple form used solely to generate a CSRF token for manual forms
 class CSRFOnlyForm(FlaskForm):
     pass
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+class CreateUserFormAdmin(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(max=255)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=128)])
+    role = SelectField('Role', choices=[('ADMIN', 'Admin'), ('USER', 'User')], validators=[DataRequired()])
+    submit = SubmitField('Create User')
