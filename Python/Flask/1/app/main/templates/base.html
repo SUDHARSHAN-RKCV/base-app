@@ -369,6 +369,16 @@
             }
           });
       }
+      {% if current_user.is_authenticated %}
+      <script>
+        window.APP_USER = { id: '{{ current_user.user_id }}' };
+      </script>
+      {% endif %}
+      <script src="https://www.datadoghq-browser-agent.com/eu1/v5/datadog-rum.js"></script>
+      <script src="/static/js/dd-rum.js"></script>
+    
+
+    {% block scripts %}{% endblock %}
     </script>
   </body>
 </html>
