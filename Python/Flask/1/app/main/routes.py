@@ -89,3 +89,18 @@ def changelog():
         html_content = "<p><strong>Error loading changelog.</strong></p>"
     return render_template('changelog.html', changelog_html=html_content, active_page="changelog")
 
+@main.route('/api/config')
+def js_config():
+    config = {
+        "appName":    current_app.config.get("APP_NAME"),
+        "appVersion": current_app.config.get("APP_VERSION"),
+        "env":        os.getenv("APP_ENV", "production"),
+        "rumAppId":   current_app.config.get("RUM_appId"),   # ← add these
+        "rumToken":   current_app.config.get("RUM_Token"),   # ← add these
+    }
+    if current_user.is_authenticated:
+        config["userId"]    = current_user.user_id
+        config["userEmail"] = current_user.email
+        config["userRole"]  = current_user.role
+
+    return jsonify(config)
