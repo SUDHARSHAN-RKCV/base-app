@@ -96,15 +96,6 @@
             <i class="fas fa-chart-line" title="Reports"></i>
             <span class="link-text">Reports</span>
           </a>
-          <!-- disabled projects tab for future use
-          <a
-            href="/projects"
-            class="{% if active_page == 'projects' %}active{% endif %}"
-          >
-            <i class="fas fa-project-diagram" title="Projects"></i>
-            <span class="link-text">Projects</span>
-          </a>
-          -->
 
           {% endif %} {% if current_user.is_authenticated and
           current_user.role|lower == 'admin' %}
