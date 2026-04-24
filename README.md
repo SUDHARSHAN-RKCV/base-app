@@ -50,11 +50,11 @@ Dependency pinning
 Security scan compatibility (Snyk / Dependabot)
 
 🧩 Supported Tech Stacks
+
 🐍 Python
+  Flask (Gunicorn + Nginx ready)
 
-Flask (Gunicorn + Nginx ready)
-
-Django (Secure base config)
+  Django (Secure base config)
 
 🔄 CI / CD Integration
 
