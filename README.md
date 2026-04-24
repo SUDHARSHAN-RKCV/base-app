@@ -182,20 +182,7 @@ base-app-templates/
 │
 ├── python/
 │ ├── flask-base/
-│ ├── fastapi-base/
-│ └── django-base/
-│
-├── node/
-│ ├── express-base/
-│ └── nestjs-base/
-│
-├── rust/
-│ ├── actix-base/
-│ └── axum-base/
-│
-└── frontend/
-  ├── react-base/
-  └── nextjs-base/
+
 ```
 
 Each folder is independently runnable.
