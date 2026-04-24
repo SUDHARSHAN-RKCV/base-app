@@ -54,29 +54,7 @@ Security scan compatibility (Snyk / Dependabot)
 
 Flask (Gunicorn + Nginx ready)
 
-FastAPI (ASGI production-ready)
-
 Django (Secure base config)
-
-🟢 Node.js
-
-Express.js
-
-NestJS
-
-🦀 Rust
-
-Actix Web
-
-Axum
-
-⚛️ Frontend
-
-React (Vite)
-
-Next.js
-
-Static SPA template
 
 🔄 CI / CD Integration
 
@@ -181,7 +159,7 @@ Security is treated as a baseline requirement, not an add-on.
 base-app-templates/
 │
 ├── python/
-│ ├── flask-base/
+│     ├── flask-base/
 
 ```
 
